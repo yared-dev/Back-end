@@ -6,25 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body>    
-    <script>
-      function handleCredentialResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential);
-      }
-      window.onload = function () {
-        google.accounts.id.initialize({
-          client_id: "279082280198-bdtli0jths9hc97kqf2l7hf4k8qdc2de.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline", size: "small" }  // customization attributes
-        );
-      }
-  </script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-  <div id="buttonDiv"></div>
-  </div>
+  <body>
+    <script></script>
   </body>
 </html>

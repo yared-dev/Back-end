@@ -10,11 +10,11 @@ const fileUpload = (req, res = response) => {
   const id = req.params.id;
   console.log("file upload");
   // Validar tipo
-  const tiposValidos = ["hospitales", "medicos", "usuarios", "productos"];
+  const tiposValidos = ["usuarios", "productos"];
   if (!tiposValidos.includes(tipo)) {
     return res.status(400).json({
       ok: false,
-      msg: "No es un médico, usuario,producto u hospital (tipo)",
+      msg: "No es un usuario,producto (tipo)",
     });
   }
 
@@ -50,7 +50,7 @@ const fileUpload = (req, res = response) => {
   const path = `./uploads/${tipo}/${nombreArchivo}`;
 
   // Mover la imagen
-  file.mv(path, (err) => {
+  file.mv(path, err => {
     if (err) {
       console.log(err);
       return res.status(500).json({

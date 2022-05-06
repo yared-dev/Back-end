@@ -1,0 +1,9 @@
+
+psql -h localhost -d appledb -U yared -W -> conexcion
+\dt -> get tablas 
+
+GOOGLE_ID=279082280198-bdtli0jths9hc97kqf2l7hf4k8qdc2de.apps.googleusercontent.com
+GOOGLE_SECRET=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
+PORT=3000
+DB_CNN=mongodb+srv://yared_mongo:P1XHEMU8FKuuejt2@cluster0.chwu3.mongodb.net/test
+JWT_SECRET=Holsdj28397kjHd7@asdyui3897k

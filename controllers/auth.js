@@ -1,7 +1,8 @@
 const { response } = require("express");
 const bcrypt = require("bcryptjs");
 
-const Usuario = require("../models/usuario");
+// const Usuario = require("../models/usuario");
+const conexion = require("../database/config.database");
 const { generarJWT } = require("../helpers/jwt");
 const { googleVerify } = require("../helpers/google-verify");
 
@@ -10,9 +11,12 @@ const login = async (req, res = response) => {
 
   try {
     // Verificar email
-    const usuarioDB = await Usuario.findOne({ email });
+    const usuarioDB = await conexion.query(
+      `select * from usuario where email = $1 and password =  $2`,
+      [email, password]
+    );
 
-    if (!usuarioDB) {
+    if (resultados.rows[0].length <= 0) {
       return res.status(404).json({
         ok: false,
         msg: "Email no encontrado",
@@ -44,39 +48,39 @@ const login = async (req, res = response) => {
   }
 };
 
-const googleSingin = async (req, res = response) => {
-  const googleToken = req.body.token;
-  try {
-    const verify = await googleVerify(googleToken);
-    const { name, email, picture } = verify;
-    const usuarioDB = await Usuario.findOne({ email });
-    let usuario;
-    if (!usuarioDB) {
-      usuario = new Usuario({
-        nombre: name,
-        email,
-        password: "@@@",
-        img: picture,
-        google: true,
-      });
-    } else {
-      usuario = usuarioDB;
-      usuario.google = true;
-      usuario.password = true;
-    }
-    await usuario.save();
+// const googleSingin = async (req, res = response) => {
+//   const googleToken = req.body.token;
+//   try {
+//     const verify = await googleVerify(googleToken);
+//     const { name, email, picture } = verify;
+//     const usuarioDB = await Usuario.findOne({ email });
+//     let usuario;
+//     if (!usuarioDB) {
+//       usuario = new Usuario({
+//         nombre: name,
+//         email,
+//         password: "@@@",
+//         img: picture,
+//         google: true,
+//       });
+//     } else {
+//       usuario = usuarioDB;
+//       usuario.google = true;
+//       usuario.password = true;
+//     }
+//     await usuario.save();
 
-    const token = await generarJWT(usuario.id);
+//     const token = await generarJWT(usuario.id);
 
-    res.json({
-      ok: true,
-      msg: "google singin",
-      token: token,
-    });
-  } catch (error) {
-    console.log("token no es correcto");
-  }
-};
+//     res.json({
+//       ok: true,
+//       msg: "google singin",
+//       token: token,
+//     });
+//   } catch (error) {
+//     console.log("token no es correcto");
+//   }
+// };
 
 const renewToken = async (req, res = response) => {
   const uid = req.uid;
@@ -91,6 +95,6 @@ const renewToken = async (req, res = response) => {
 };
 module.exports = {
   login,
-  googleSingin,
+  // googleSingin,
   renewToken,
 };
