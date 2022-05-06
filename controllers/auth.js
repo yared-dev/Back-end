@@ -45,7 +45,6 @@ const login = async (req, res = response) => {
 };
 
 const googleSingin = async (req, res = response) => {
-  
   const googleToken = req.body.token;
   try {
     const verify = await googleVerify(googleToken);
@@ -84,8 +83,6 @@ const renewToken = async (req, res = response) => {
   const token = await generarJWT(uid);
 
   const usuarioDB = await Usuario.findById(uid);
-  console.log(usuarioDB);
-  console.log(true);
   res.json({
     ok: true,
     token,

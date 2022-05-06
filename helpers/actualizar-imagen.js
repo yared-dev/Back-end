@@ -3,6 +3,7 @@ const fs = require("fs");
 
 const Medico = require("../models/medico");
 const Hospital = require("../models/hospital");
+const Productos = require("../models/productos");
 
 const borrarImagen = (path) => {
   if (fs.existsSync(path)) {
@@ -15,6 +16,21 @@ const actualizarImagen = async (tipo, id, nombreArchivo) => {
   let pathViejo = "";
 
   switch (tipo) {
+    case "productos":
+      const producto = await Productos.findById(id);
+      if (!producto) {
+        console.log("No es un médico por id");
+        return false;
+      }
+
+      pathViejo = `./uploads/productos/${producto.img}`;
+      borrarImagen(pathViejo);
+
+      producto.img = nombreArchivo;
+      await producto.save();
+      return true;
+
+      break;
     case "medicos":
       const medico = await Medico.findById(id);
       if (!medico) {

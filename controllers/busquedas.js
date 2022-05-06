@@ -2,22 +2,25 @@ const { response } = require("express");
 
 const Usuario = require("../models/usuario");
 const Medico = require("../models/medico");
-const Hospital = require("../models/hospital");
+const Trabajos = require("../models/trabajo");
+const Productos = require("../models/productos");
 
 const getTodo = async (req, res = response) => {
   const busqueda = req.params.busqueda;
   const regex = new RegExp(busqueda, "i");
 
-  const [usuarios, medicos, hospitales] = await Promise.all([
+  const [usuarios, medicos, trabajos, productos] = await Promise.all([
     Usuario.find({ nombre: regex }),
     Medico.find({ nombre: regex }),
-    Hospital.find({ nombre: regex }),
+    Trabajos.find({ nombre: regex }),
+    Productos.find({ nombre: regex }),
   ]);
   res.json({
     ok: true,
     usuarios,
     medicos,
-    hospitales,
+    trabajos,
+    productos,
   });
 };
 
@@ -35,11 +38,13 @@ const getDocumentosColeccion = async (req, res = response) => {
         .populate("hospital", "nombre img");
       break;
 
-    case "hospitales":
-      data = await Hospital.find({ nombre: regex }).populate(
-        "usuario",
-        "nombre img"
-      );
+    case "productos":
+      data = await Productos.find({ nombre: regex });
+
+      break;
+
+    case "trabajos":
+      data = await Trabajos.find({ nombre: regex });
       break;
 
     case "usuarios":
