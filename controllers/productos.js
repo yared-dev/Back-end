@@ -1,31 +1,17 @@
-const Producto = require("../models/productos");
+const Product = require("../models/productos");
 
 const getProductos = async (req, res) => {
-  const desde = Number(req.query.desde) || 0;
-
-  const [producto, total] = await Promise.all([
-    Producto.find({}, "nombre precio cantidad img ").skip(desde).limit(5),
-    Producto.countDocuments(),
-  ]);
-
+  const producto = await Product.getProduct();
   res.json({
     ok: true,
-    producto,
-    total,
+    producto: producto.rows,
   });
 };
 const createProductos = async (req, res) => {
-  const uid = req.uid;
-  const producto = new Producto({
-    usuario: uid,
-    ...req.body,
-  });
   try {
-    const paroductoDb = await producto.save();
-
+    await Product.insertProduct(req.body);
     res.json({
       ok: true,
-      producto: paroductoDb,
     });
   } catch (error) {
     console.log(error);
@@ -38,14 +24,14 @@ const createProductos = async (req, res) => {
 const deleteProductos = async (req, res) => {
   const id = req.params.id;
   try {
-    const producto = await Producto.findById(id);
-    if (!producto) {
+    const producto = await Product.getProductById(id);
+    if (!producto.rows[0]) {
       return res.status(404).json({
         ok: true,
-        msg: "producto no encontrado",
+        msg: "trabajo no encontrado",
       });
     }
-    await Producto.findByIdAndDelete(id);
+    await Product.deleteProduct(id);
     res.json({
       ok: true,
       msg: "producto borrado",
@@ -57,52 +43,26 @@ const deleteProductos = async (req, res) => {
 const updateProductos = async (req, res) => {
   const id = req.params.id;
   try {
-    const producto = await Producto.findById(id);
-    if (!producto) {
+    const producto = await Product.getProductById(id);
+    if (!producto.rows[0]) {
       return res.status(404).json({
         ok: true,
-        msg: "Producto no encontrado",
+        msg: "trabajo no encontrado",
       });
     }
-
-    const cambiosProducto = req.body;
-
-    const productoActualizado = await Producto.findByIdAndUpdate(
-      id,
-      cambiosProducto,
-      { new: true }
-    );
+    await Product.updateProduct(req.body, id);
     res.json({
       ok: true,
       msg: "producto Actualizado",
-      producto: productoActualizado,
     });
   } catch (e) {
     console.log(e);
   }
 };
-const getProductosByName = async (req, res) => {
-  const total = await Producto.aggregate([
-    {
-      $group: {
-        _id: {
-          nombre: "$nombre",
-        },
-        totalPrice: {
-          $sum: "$precio",
-        },
-      },
-    },
-  ]);
-  res.json({
-    ok: true,
-    total,
-  });
-};
+
 module.exports = {
   getProductos,
   createProductos,
   deleteProductos,
   updateProductos,
-  getProductosByName,
 };

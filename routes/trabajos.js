@@ -15,17 +15,17 @@ const { validarJWT } = require("../middlewares/validar-jwt");
 
 const router = Router();
 
-router.get("/", validarJWT, getTrabajos);
+router.get("/:id", validarJWT, getTrabajos);
 
 router.post(
   "/",
   [
     validarJWT,
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("modelo", "El modelo es obligatorio").not().isEmpty(),
+    check("name", "El nombre es obligatorio").not().isEmpty(),
+    check("model", "El modelo es obligatorio").not().isEmpty(),
     check("description", "El description es obligatorio").not().isEmpty(),
-    check("precio", "El precio es obligatorio").not().isEmpty(),
-    check("urgencia", "El urgencia es obligatorio").not().isEmpty(),
+    check("price", "El precio es obligatorio").not().isEmpty(),
+    check("priority", "El urgencia es obligatorio").not().isEmpty(),
     validarCampos,
   ],
   createTrabajos

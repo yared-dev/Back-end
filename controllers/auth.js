@@ -1,7 +1,7 @@
 const { response } = require("express");
 const bcrypt = require("bcryptjs");
 
-// const Usuario = require("../models/usuario");
+const Usuario = require("../models/usuario");
 const conexion = require("../database/config.database");
 const { generarJWT } = require("../helpers/jwt");
 const { googleVerify } = require("../helpers/google-verify");
@@ -12,28 +12,28 @@ const login = async (req, res = response) => {
   try {
     // Verificar email
     const usuarioDB = await conexion.query(
-      `select * from usuario where email = $1 and password =  $2`,
-      [email, password]
+      `select * from users where email = $1`,
+      [email]
     );
-
-    if (resultados.rows[0].length <= 0) {
+    if (!usuarioDB.rows[0]) {
       return res.status(404).json({
         ok: false,
         msg: "Email no encontrado",
       });
     }
-
     // Verificar contraseña
-    const validPassword = bcrypt.compareSync(password, usuarioDB.password);
+    const validPassword = bcrypt.compareSync(
+      password,
+      usuarioDB.rows[0].password
+    );
     if (!validPassword) {
       return res.status(400).json({
         ok: false,
         msg: "Contraseña no válida",
       });
     }
-
     // Generar el TOKEN - JWT
-    const token = await generarJWT(usuarioDB.id);
+    const token = await generarJWT(usuarioDB.rows[0].iduser);
 
     res.json({
       ok: true,
@@ -84,13 +84,14 @@ const login = async (req, res = response) => {
 
 const renewToken = async (req, res = response) => {
   const uid = req.uid;
+
   const token = await generarJWT(uid);
 
-  const usuarioDB = await Usuario.findById(uid);
+  const usuarioDB = await Usuario.findOneById(uid);
   res.json({
     ok: true,
     token,
-    usuarioDB,
+    usuarioDB: usuarioDB.rows[0],
   });
 };
 module.exports = {

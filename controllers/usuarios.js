@@ -25,7 +25,7 @@ const crearUsuario = async (req, res = response) => {
     // Buscar usuario por id
     const user = await Usuario.findOneByEmail(email);
     // Generar el TOKEN - JWT
-    const token = await generarJWT(user.rows[0].id);
+    const token = await generarJWT(user.rows[0].iduser);
 
     res.json({
       ok: true,

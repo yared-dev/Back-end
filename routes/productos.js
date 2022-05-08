@@ -10,22 +10,19 @@ const {
   createProductos,
   deleteProductos,
   updateProductos,
-  getProductosByName,
 } = require("../controllers/productos");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
 const router = Router();
 
 router.get("/", validarJWT, getProductos);
-router.get("/byname", getProductosByName);
 
 router.post(
   "/",
   [
     validarJWT,
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("precio", "El precio es obligatorio").not().isEmpty(),
-    check("cantidad", "El cantidad es obligatorio").not().isEmpty(),
+    check("name", "El name es obligatorio").not().isEmpty(),
+    check("cant", "El cant es obligatorio").not().isEmpty(),
     validarCampos,
   ],
   createProductos

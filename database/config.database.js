@@ -8,6 +8,10 @@ const pool = new Pool({
   port: "5432",
 });
 pool.connect((err, client, release) => {
+  console.log(process.env.PGUSER);
+  console.log(process.env.PGHOST);
+  console.log(process.env.PGPASSWORD);
+  console.log(process.env.PGDATABASE);
   if (err) {
     return console.error("Error acquiring client", err.stack);
   }

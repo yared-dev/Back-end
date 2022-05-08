@@ -2,37 +2,18 @@ const { response } = require("express");
 const Trabajo = require("../models/trabajo");
 
 const getTrabajos = async (req, res) => {
-  const desde = Number(req.query.desde) || 0;
-  const estado = req.query.estado || false;
-  const [trabajo, total] = await Promise.all([
-    Trabajo.find(
-      { estado: estado },
-      "nombre modelo telefono description precio urgencia date estado _id"
-    )
-      .skip(desde)
-      .limit(5)
-      .sort({ date: -1 }),
-
-    Trabajo.countDocuments(),
-  ]);
+  const activo = req.params.id || false;
+  const trabajo = await Trabajo.getJobs(activo);
   res.json({
     ok: true,
-    trabajo,
-    total,
+    trabajo: trabajo.rows,
   });
 };
 const createTrabajos = async (req, res) => {
-  const uid = req.uid;
-  const trabajo = new Trabajo({
-    usuario: uid,
-    ...req.body,
-  });
   try {
-    const trabajoDb = await trabajo.save();
-
+    await Trabajo.insertJob(req.body);
     res.json({
       ok: true,
-      trabajos: trabajoDb,
     });
   } catch (error) {
     console.log(error);
@@ -45,14 +26,14 @@ const createTrabajos = async (req, res) => {
 const deleteTrabajos = async (req, res) => {
   const id = req.params.id;
   try {
-    const trabajo = await Trabajo.findById(id);
-    if (!trabajo) {
+    const trabajo = await Trabajo.getJobsById(id);
+    if (!trabajo.rows[0]) {
       return res.status(404).json({
         ok: true,
         msg: "trabajo no encontrado",
       });
     }
-    await Trabajo.findByIdAndDelete(id);
+    await Trabajo.deleteJob(id);
     res.json({
       ok: true,
       msg: "trabajo borrado",
@@ -63,30 +44,18 @@ const deleteTrabajos = async (req, res) => {
 };
 const actualizarTrabajo = async (req, res) => {
   const id = req.params.id;
-  const uid = req.uid;
   try {
-    const trabajo = await Trabajo.findById(id);
-    if (!trabajo) {
+    const trabajo = await Trabajo.getJobsById(id);
+    if (!trabajo.rows[0]) {
       return res.status(404).json({
         ok: true,
         msg: "trabajo no encontrado",
       });
     }
-
-    const cambiosTrabajo = {
-      ...req.body,
-      usuario: uid,
-    };
-
-    const trabajoActualizado = await Trabajo.findByIdAndUpdate(
-      id,
-      cambiosTrabajo,
-      { new: true }
-    );
+    await Trabajo.updateJob(req.body);
     res.json({
       ok: true,
-      msg: "actualizarTrabajo",
-      hospital: trabajoActualizado,
+      msg: "Trabajo Actualizado",
     });
   } catch (e) {
     console.log(e);

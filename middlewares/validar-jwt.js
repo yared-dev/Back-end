@@ -12,7 +12,8 @@ const validarJWT = (req, res, next) => {
   }
 
   try {
-    const { uid } = jwt.verify(token, "espectroaspmqpwk1234124");
+    console.log(token);
+    const { uid } = jwt.verify(token, process.env.JWT_SECRET);
     req.uid = uid;
 
     next();
