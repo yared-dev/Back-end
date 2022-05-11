@@ -5,7 +5,7 @@ const findOneByEmail = async (email) => {
 };
 
 const findOneById = async (id) => {
-  return await pool.query("SELECT * FROM users WHERE iduser = $1", [id]);
+  return await pool.query("SELECT * FROM users WHERE id_user = $1", [id]);
 };
 
 const insertUser = async (email, name, role, password) => {
@@ -19,16 +19,16 @@ const getUsers = async (desde = 0) => {
   return await pool.query("SELECT * FROM users");
 };
 
-const updateUser = async (email, name, role, id) => {
+const updateUser = async (email, name, role, img, id) => {
   const response = await pool.query(
-    "UPDATE users SET name = $1, email = $2, role = $3 WHERE iduser = $4",
-    [name, email, role, id]
+    "UPDATE users SET name = $1, email = $2, role = $3,img=$4 WHERE id_user = $5",
+    [name, email, role, img, id]
   );
   return response;
 };
 
 const deleteUser = async (id) => {
-  const response = await pool.query("DELETE FROM users WHERE iduser = $1", [
+  const response = await pool.query("DELETE FROM users WHERE id_user = $1", [
     id,
   ]);
   return response;

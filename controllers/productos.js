@@ -50,7 +50,7 @@ const updateProductos = async (req, res) => {
         msg: "trabajo no encontrado",
       });
     }
-    await Product.updateProduct(req.body, id);
+    await Product.updateProduct(req.body);
     res.json({
       ok: true,
       msg: "producto Actualizado",

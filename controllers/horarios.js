@@ -17,7 +17,18 @@ const enviarHorarioEntrada = async (req, res) => {
     });
   }
 };
-
+const getHorarioEmpleado = async (req, res) => {
+  try {
+    const horario = await Horario.getHorarioEmpleado();
+    res.json({
+      ok: true,
+      horario: horario.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   enviarHorarioEntrada,
+  getHorarioEmpleado,
 };

@@ -25,7 +25,7 @@ const insertJob = async (res) => {
     .padStart(2, "0")}`;
 
   return await pool.query(
-    "INSERT INTO jobs (iduser,idproduct,name,model,phone_number,description,price,priority,estate,date) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
+    "INSERT INTO jobs (id_user,idproduct,name,model,phone_number,description,price,priority,estate,date) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
     [
       iduser,
       idproduct,
@@ -43,12 +43,12 @@ const insertJob = async (res) => {
 
 const getJobs = async (bool) => {
   return await pool.query(
-    `SELECT idjobs,j.iduser,idproduct,j.name,model,phone_number,description,price,priority,estate,date,(u.name) as empleado FROM jobs j join users u on u.iduser = j.iduser where j.estate=${bool}`
+    `SELECT idjobs,j.id_user,idproduct,j.name,model,phone_number,description,price,priority,estate,date,(u.name) as empleado FROM jobs j join users u on u.id_user = j.id_user where j.estate=${bool}`
   );
 };
 const getJobsById = async (id) => {
   return await pool.query(
-    "SELECT * FROM jobs j join users u on u.iduser = j.iduser where j.idjobs =$1 ",
+    "SELECT * FROM jobs j join users u on u.id_user = j.id_user where j.idjobs =$1 ",
     [id]
   );
 };

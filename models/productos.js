@@ -14,13 +14,10 @@ const getProductById = async (id) => {
   return await pool.query("SELECT * FROM products where idproduct =$1 ", [id]);
 };
 const updateProduct = async (res, id) => {
-  const { nombre, cantidad, precio } = res;
-  let name = nombre,
-    cant = cantidad,
-    price = precio;
+  const { name, cant, price, img, idproduct } = res;
   const response = await pool.query(
-    "UPDATE products SET name = $1, cant = $2, price = $3  WHERE idproduct = $4",
-    [name, cant, price, id]
+    "UPDATE products SET name = $1, cant = $2, price = $3,img=$4  WHERE idproduct = $5",
+    [name, cant, price, img, idproduct]
   );
   return response;
 };
