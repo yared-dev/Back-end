@@ -75,8 +75,7 @@ const actualizarUsuario = async (req, res = response) => {
     }
 
     // Actualizaciones
-    const { email, name, role } = req.body;
-
+    const { email, name, role, img } = req.body;
     if (usuarioDB.rows[0].email !== email) {
       const existeEmail = await Usuario.findOneByEmail(email);
       if (existeEmail.rows[0]) {
@@ -86,7 +85,7 @@ const actualizarUsuario = async (req, res = response) => {
         });
       }
     }
-    const usuarioActualizado = await Usuario.updateUser(email, name, role, uid);
+    const usuarioActualizado = await Usuario.updateUser(email, name, role, img, uid);
 
     res.json({
       ok: true,
