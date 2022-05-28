@@ -9,8 +9,13 @@ DB_CNN=mongodb+srv://yared_mongo:P1XHEMU8FKuuejt2@cluster0.chwu3.mongodb.net/tes
 JWT_SECRET=Holsdj28397kjHd7@asdyui3897k
 
 
-eliminar iamgenes de docker 
-
-all
+ELIMINAR IAMGENES DE DOCKER 
 docker rmi $(docker images -q)
+
+CHANGE ZONA HORARIA ALPINE
+
+
+
+ALTER DATABASE postgres SET timezone TO 'America/Lima';
+
 

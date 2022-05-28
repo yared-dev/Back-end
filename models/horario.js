@@ -1,8 +1,8 @@
 const pool = require("../database/config.database");
 
 const insertHorario = async (res) => {
-  const { id, tipo_asistencia } = res;
-  var dt = new Date();
+  const { id, tipo_asistencia,getDate } = res;
+  var dt = new Date(getDate);
   var fecha_hora = formatDate(dt);
   var hora = dt.getHours();
   var minutos = dt.getMinutes();
