@@ -10,6 +10,7 @@ const {
   createTrabajos,
   actualizarTrabajo,
   deleteTrabajos,
+  getJobsByIdUser
 } = require("../controllers/trabajo");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
@@ -30,6 +31,8 @@ router.post(
   ],
   createTrabajos
 );
+
+router.post('/usuario',validarJWT,getJobsByIdUser)
 
 router.put("/:id", validarJWT, actualizarTrabajo);
 

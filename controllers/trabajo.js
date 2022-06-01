@@ -61,10 +61,35 @@ const actualizarTrabajo = async (req, res) => {
     console.log(e);
   }
 };
+const getJobsByIdUser = async (req, res) => {
 
+  try {
+    const trabajo = await Trabajo.getJobsByUser(req.body);
+
+    if (!trabajo.rows[0]) {
+      return res.status(200).json({
+        ok: false,
+        msg: "No Hay datos",
+      });
+    }
+    res.status(200).json({
+      ok: true,
+      msg: "Great",
+      trabajo: trabajo.rows,
+
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: error,
+    });
+  }
+}
 module.exports = {
   getTrabajos,
   createTrabajos,
   deleteTrabajos,
   actualizarTrabajo,
+  getJobsByIdUser
 };

@@ -24,6 +24,7 @@ app.use("/api/productos", require("./routes/productos"));
 app.use("/api/horarios", require("./routes/horarios"));
 app.use("/api/graficos", require("./routes/graficos"));
 app.use("/api/upload", require("./routes/uploads"));
+app.use("/api/pagos", require("./routes/pagos"));
 // app.use("/api/todo", require("./routes/busquedas"));
 
 app.listen(3000, () => {
