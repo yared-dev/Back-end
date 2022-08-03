@@ -1,9 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 
 // Crear el servidor de express
 const app = express();
+
+//leer los request qeu consultan
+app.use(morgan('tiny'))
 
 // Configurar CORS
 app.use(cors());

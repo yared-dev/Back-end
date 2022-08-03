@@ -7,9 +7,15 @@ services:
     ports:
       - "5000:3000"
     environment:
-      - PGDATABASE=appledb
+      # DEV
+      # - PGDATABASE=postgres
+      # - PGUSER=postgres
+      # - PGPASSWORD=1234
+      # - PGHOST=localhost
+      # PRODUCCION
       - PGUSER=yared
       - PGPASSWORD=1234
+      - PGDATABASE=appledb
       - PGHOST=postgresql
     links:
       - postgresql
@@ -21,6 +27,12 @@ services:
     ports:
       - "5432:5432"
     environment:
+    # DEV
+      # - POSTGRES_USER=yared
+      # - POSTGRES_PASSWORD=1234
+      # - POSTGRES_DB=postgres
+      
+      # PRODUCCION
       - POSTGRES_USER=yared
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=appledb

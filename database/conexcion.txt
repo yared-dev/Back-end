@@ -1,6 +1,6 @@
 
-psql -h localhost -d appledb -U yared -W -> conexcion
-\dt -> get tablas 
+psql -h localhost -d appledb -U yared -W ----> conexcion
+\dt -----> get tablas 
 
 GOOGLE_ID=279082280198-bdtli0jths9hc97kqf2l7hf4k8qdc2de.apps.googleusercontent.com
 GOOGLE_SECRET=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
@@ -19,3 +19,8 @@ CHANGE ZONA HORARIA ALPINE
 ALTER DATABASE postgres SET timezone TO 'America/Lima';
 
 
+JWT_SECRET=Holsdj28397kjHd7@asdyui3897k
+PGDATABASE=postgres
+PGUSER=postgres
+PGPASSWORD=1234
+PGHOST=localhost
