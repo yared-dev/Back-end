@@ -17,6 +17,7 @@ services:
       - PGPASSWORD=1234
       - PGDATABASE=appledb
       - PGHOST=postgresql
+      - JWT_SECRET=Holsdj28397kjHd7@asdyui3897k
     links:
       - postgresql
     volumes:

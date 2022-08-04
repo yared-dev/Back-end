@@ -1,6 +1,8 @@
 
 psql -h localhost -d appledb -U yared -W ----> conexcion
 \dt -----> get tablas 
+docker exec –it <nombre de contenedor> /bin/bash
+
 
 GOOGLE_ID=279082280198-bdtli0jths9hc97kqf2l7hf4k8qdc2de.apps.googleusercontent.com
 GOOGLE_SECRET=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
@@ -10,7 +12,8 @@ JWT_SECRET=Holsdj28397kjHd7@asdyui3897k
 
 
 ELIMINAR IAMGENES DE DOCKER 
-docker rmi $(docker images -q)
+docker rmi $(docker images -a -q) -f
+docker rm $(docker ps -a -q) -f
 
 CHANGE ZONA HORARIA ALPINE
 
