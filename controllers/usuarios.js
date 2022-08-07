@@ -49,6 +49,7 @@ const getUsuarios = async (req, res) => {
     res.json({
       ok: true,
       usuarios: usuarios.rows,
+      total: 0,
     });
   } catch (error) {
     console.log(error);
@@ -85,7 +86,13 @@ const actualizarUsuario = async (req, res = response) => {
         });
       }
     }
-    const usuarioActualizado = await Usuario.updateUser(email, name, role, img, uid);
+    const usuarioActualizado = await Usuario.updateUser(
+      email,
+      name,
+      role,
+      img,
+      uid
+    );
 
     res.json({
       ok: true,

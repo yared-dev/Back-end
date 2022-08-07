@@ -17,6 +17,7 @@ const enviarPago = async (req, res) => {
 };
 const getPagoByUser = async (req, res) => {
   try {
+    console.log(req.body);
     const pago = await Pagos.getPagos(req.body);
     // console.log(pago.rows)
     if (!pago.rows[0]) {

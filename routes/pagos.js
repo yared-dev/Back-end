@@ -6,7 +6,7 @@ const { Router } = require("express");
 
 const { validarJWT } = require("../middlewares/validar-jwt");
 
-const {enviarPago,getPagoByUser} = require("../controllers/pagos");
+const { enviarPago, getPagoByUser } = require("../controllers/pagos");
 
 const router = Router();
 
