@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.1"
 
 services:
   web:
@@ -17,6 +17,7 @@ services:
       - PGPASSWORD=1234
       - PGDATABASE=appledb
       - PGHOST=postgresql
+      - JWT_SECRET=Holsdj28397kjHd7@asdyui3897k
     links:
       - postgresql
     volumes:
@@ -38,3 +39,4 @@ services:
       - POSTGRES_DB=appledb
     volumes:
       - ~/docker/postgres:/var/lib/postgresql/data
+

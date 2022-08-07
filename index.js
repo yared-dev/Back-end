@@ -1,6 +1,8 @@
-require("dotenv").config();
-const express = require("express");
+//require("dotenv").config();
+
 const cors = require("cors");
+const express = require("express");
+
 const morgan = require("morgan");
 
 // Crear el servidor de express
