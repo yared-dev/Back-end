@@ -82,18 +82,18 @@ const deleteJob = async (id) => {
   return response;
 };
 
-const getJobsByUser = async (res)=>{
-  const {iduser}=res;
+const getJobsByUser = async (res) => {
+  const { iduser } = res;
   return await pool.query(
     "SELECT * FROM jobs j join users u on u.id_user = j.id_user where u.id_user = $1 and j.estate = true",
     [iduser]
   );
-}
+};
 module.exports = {
   insertJob,
   getJobs,
   getJobsById,
   updateJob,
   deleteJob,
-  getJobsByUser
+  getJobsByUser,
 };

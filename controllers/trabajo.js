@@ -62,7 +62,6 @@ const actualizarTrabajo = async (req, res) => {
   }
 };
 const getJobsByIdUser = async (req, res) => {
-
   try {
     const trabajo = await Trabajo.getJobsByUser(req.body);
 
@@ -76,7 +75,6 @@ const getJobsByIdUser = async (req, res) => {
       ok: true,
       msg: "Great",
       trabajo: trabajo.rows,
-
     });
   } catch (error) {
     console.log(error);
@@ -85,11 +83,11 @@ const getJobsByIdUser = async (req, res) => {
       msg: error,
     });
   }
-}
+};
 module.exports = {
   getTrabajos,
   createTrabajos,
   deleteTrabajos,
   actualizarTrabajo,
-  getJobsByIdUser
+  getJobsByIdUser,
 };

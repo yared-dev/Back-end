@@ -10,7 +10,7 @@ const {
   createTrabajos,
   actualizarTrabajo,
   deleteTrabajos,
-  getJobsByIdUser
+  getJobsByIdUser,
 } = require("../controllers/trabajo");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
@@ -22,17 +22,17 @@ router.post(
   "/",
   [
     validarJWT,
-    check("name", "El nombre es obligatorio").not().isEmpty(),
-    check("model", "El modelo es obligatorio").not().isEmpty(),
-    check("description", "El description es obligatorio").not().isEmpty(),
-    check("price", "El precio es obligatorio").not().isEmpty(),
-    check("priority", "El urgencia es obligatorio").not().isEmpty(),
+    // check("name", "El nombre es obligatorio").not().isEmpty(),
+    // check("model", "El modelo es obligatorio").not().isEmpty(),
+    // check("description", "El description es obligatorio").not().isEmpty(),
+    // check("price", "El precio es obligatorio").not().isEmpty(),
+    // check("priority", "El urgencia es obligatorio").not().isEmpty(),
     validarCampos,
   ],
   createTrabajos
 );
 
-router.post('/usuario',validarJWT,getJobsByIdUser)
+router.post("/usuario", validarJWT, getJobsByIdUser);
 
 router.put("/:id", validarJWT, actualizarTrabajo);
 

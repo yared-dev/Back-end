@@ -1,16 +1,10 @@
 const pool = require("../database/config.database");
 
 const insertHorario = async (res) => {
-  const { id, tipo_asistencia,getDate } = res;
-  var dt = new Date(getDate);
-  var fecha_hora = formatDate(dt);
-  var hora = dt.getHours();
-  var minutos = dt.getMinutes();
-  var segundos = dt.getSeconds();
-  var date = fecha_hora + " " + hora + ":" + minutos + ":" + segundos;
+  const { tipo_asistencia, idusers, date } = res;
   return await pool.query(
     "INSERT INTO horario_empleado (id_user, fecha_hora, tipo_asistencia) VALUES ($1,$2,$3)",
-    [id, date, tipo_asistencia]
+    [idusers, date, tipo_asistencia]
   );
 };
 const getHorarioEmpleado = async () => {
@@ -31,7 +25,7 @@ function formatDate(date) {
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  return [year, month,day].join("-");
+  return [year, month, day].join("-");
 }
 module.exports = {
   insertHorario,
