@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 const Horario = require("../models/horario");
 
 const enviarHorarioEntrada = async (req, res) => {

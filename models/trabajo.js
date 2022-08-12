@@ -43,7 +43,26 @@ const insertJob = async (res) => {
 
 const getJobs = async (bool) => {
   return await pool.query(
-    `SELECT idjobs,j.id_user,idproduct,j.name,model,phone_number,description,price,priority,estate,date,(u.name) as empleado FROM jobs j join users u on u.id_user = j.id_user where j.estate=${bool}`
+    `
+    SELECT
+      idjobs,
+      j.id_user,
+      pr."name" AS producto,
+      j.NAME,
+      j.model,
+      phone_number,
+      description,
+      j.price,
+      j.priority,
+      j.estate,
+      j.DATE,
+      ( u."name" ) AS empleado 
+    FROM
+      jobs j
+      JOIN users u ON u.id_user = j.id_user
+      LEFT JOIN products pr ON j.idproduct = pr.idproduct 
+    WHERE
+      j.estate=${bool};`
   );
 };
 const getJobsById = async (id) => {

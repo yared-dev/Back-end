@@ -8,7 +8,7 @@ const insertProduct = async (res) => {
   );
 };
 const getProduct = async () => {
-  return await pool.query("SELECT * FROM products");
+  return await pool.query("SELECT * FROM products WHERE cant > 0");
 };
 const getProductById = async (id) => {
   return await pool.query("SELECT * FROM products where idproduct =$1 ", [id]);
