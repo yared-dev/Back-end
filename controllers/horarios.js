@@ -26,7 +26,32 @@ const getHorarioEmpleado = async (req, res) => {
     console.log(error);
   }
 };
+const countHorario = async (req, res) => {
+  try {
+    const horario = await Horario.countHorario(req.body);
+    res.json({
+      ok: true,
+      horario: horario.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const update_horario = async (req, res) => {
+  try {
+    const horario = await Horario.updateHorario(req.body);
+    res.json({
+      ok: true,
+      horario: horario.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   enviarHorarioEntrada,
   getHorarioEmpleado,
+  countHorario,
+  update_horario
 };

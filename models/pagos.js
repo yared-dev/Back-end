@@ -10,7 +10,7 @@ const insertPago = async (res) => {
 const getPagos = async (res) => {
   const { iduser } = res;
   console.log(iduser);
-  return await pool.query("select * from pagos_diarios where id_users = $1", [
+  return await pool.query("select id_users, fecha::varchar, monto from pagos_diarios where id_users = $1", [
     iduser,
   ]);
 };

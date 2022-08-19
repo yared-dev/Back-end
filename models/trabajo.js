@@ -67,7 +67,7 @@ const getJobs = async (bool) => {
 };
 const getJobsById = async (id) => {
   return await pool.query(
-    "SELECT * FROM jobs j join users u on u.id_user = j.id_user where j.idjobs =$1 ",
+    `SELECT ( u."name" ) AS empleado,j.price,j.DATE::varchar  FROM jobs j join users u on u.id_user = j.id_user where j.idjobs = $1`,
     [id]
   );
 };

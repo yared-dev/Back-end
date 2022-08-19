@@ -32,7 +32,9 @@ START 1
   "entrada" timestamp(6),
   "break" timestamp(6),
   "visita" timestamp(6),
-  "salida" timestamp(6)
+  "salida" timestamp(6),
+  "fecha" date
+
 )
 ;
 

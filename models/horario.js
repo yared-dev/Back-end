@@ -1,10 +1,10 @@
 const pool = require("../database/config.database");
 
 const insertHorario = async (res) => {
-  const { tipo_asistencia, idusers, date } = res;
+  const {idusers, date} = res;
   return await pool.query(
-    "INSERT INTO horario_empleado (id_user, fecha_hora, tipo_asistencia) VALUES ($1,$2,$3)",
-    [idusers, date, tipo_asistencia]
+    "INSERT INTO horario_empleado (id_user, fecha, entrada) VALUES ($1,$2,$3)",
+    [idusers, formatDate(date), date]
   );
 };
 const getHorarioEmpleado = async () => {
@@ -13,9 +13,52 @@ const getHorarioEmpleado = async () => {
   var hasta = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   desde = formatDate(desde);
   hasta = formatDate(hasta);
-  const query = `SELECT u.name,MAX(fecha_hora::time) - MIN(fecha_hora::time) AS diferencia FROM horario_empleado rhe  JOIN users u ON u.id_user = rhe.id_user WHERE fecha_hora BETWEEN '${desde}' and '${hasta}' and  tipo_asistencia IN ( 'E', 'S' ) GROUP BY u.name`;
+  const query = `
+                SELECT
+                u."name",
+                ( he.salida - he.entrada ) AS diferencia 
+              FROM
+                users u
+                JOIN horario_empleado he ON he.id_user = u.id_user
+                where he.fecha BETWEEN '${desde}' and '${hasta}'
+              GROUP BY
+                u."name",
+                diferencia`;
   return await pool.query(query);
 };
+const countHorario = async (res) => {
+  const {idusers} = res;
+  var date = new Date();
+  const query = `SELECT id_horario,entrada,break,visita,salida from horario_empleado where id_user = ${idusers} and fecha = '${formatDate(date)}'`;
+  return await pool.query(query);
+};
+const updateHorario = async (res) => {
+  const {id_horario,idusers,date,tipo_asistencia} = res;
+  let tidoAsistencia = '';
+  switch (tipo_asistencia){
+    case "E" :
+      tidoAsistencia = 'entrada';
+    break;
+    case "B" :
+      tidoAsistencia = 'break';
+    break;
+    case "V" :
+      tidoAsistencia = 'visita';
+    break;
+    case "S" :
+      tidoAsistencia = 'salida';
+    break;
+  }
+  return await pool.query(
+    `
+    update  horario_empleado
+    set ${tidoAsistencia} = '${date}'
+    where id_user = ${idusers}
+    and id_horario = ${id_horario};
+    `
+  );
+}
+
 function formatDate(date) {
   var d = new Date(date),
     month = "" + (d.getMonth() + 1),
@@ -30,4 +73,6 @@ function formatDate(date) {
 module.exports = {
   insertHorario,
   getHorarioEmpleado,
+  countHorario,
+  updateHorario
 };
