@@ -16,14 +16,14 @@ const getHorarioEmpleado = async () => {
   const query = `
                 SELECT
                 u."name",
-                ( he.salida - he.entrada ) AS diferencia 
+                sum( he.salida - he.entrada ) AS diferencia 
               FROM
                 users u
                 JOIN horario_empleado he ON he.id_user = u.id_user
                 where he.fecha BETWEEN '${desde}' and '${hasta}'
               GROUP BY
-                u."name",
-                diferencia`;
+                u."name"
+              `;
   return await pool.query(query);
 };
 const countHorario = async (res) => {
