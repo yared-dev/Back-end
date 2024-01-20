@@ -74,6 +74,6 @@ CREATE TABLE users (
   email VARCHAR(255),
   name VARCHAR(255),
   password VARCHAR(255) NOT NULL,
-  role VARCHAR,
+  role VARCHAR(255),
   img VARCHAR(255)
 );
