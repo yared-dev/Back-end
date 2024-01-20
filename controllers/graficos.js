@@ -8,7 +8,7 @@ const get_data_trabajos = async (req, res) => {
   const grafic = await Graficos.get_data_horario(d, h);
   res.json({
     ok: true,
-    grafic: grafic.rows,
+    grafic: grafic,
   });
 };
 const formatDate = (date) => {

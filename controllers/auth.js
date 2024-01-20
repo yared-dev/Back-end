@@ -8,14 +8,12 @@ const { googleVerify } = require("../helpers/google-verify");
 
 const login = async (req, res = response) => {
   const { email, password } = req.body;
+  console.log("🚀 ~ login ~ email, password:", email, password)
 
   try {
     // Verificar email
-    const usuarioDB = await conexion.query(
-      `select * from users where email = $1`,
-      [email]
-    );
-    if (!usuarioDB.rows[0]) {
+    const usuarioDB = await Usuario.findOneByEmail(email);
+    if (!usuarioDB[0]) {
       return res.status(404).json({
         ok: false,
         msg: "Email no encontrado",
@@ -24,7 +22,7 @@ const login = async (req, res = response) => {
     // Verificar contraseña
     const validPassword = bcrypt.compareSync(
       password,
-      usuarioDB.rows[0].password
+      usuarioDB[0].password
     );
     if (!validPassword) {
       return res.status(400).json({
@@ -33,7 +31,7 @@ const login = async (req, res = response) => {
       });
     }
     // Generar el TOKEN - JWT
-    const token = await generarJWT(usuarioDB.rows[0].id_user);
+    const token = await generarJWT(usuarioDB[0].id_user);
 
     res.json({
       ok: true,
@@ -89,7 +87,7 @@ const renewToken = async (req, res = response) => {
   res.json({
     ok: true,
     token,
-    usuarioDB: usuarioDB.rows[0],
+    usuarioDB: usuarioDB[0],
   });
 };
 module.exports = {

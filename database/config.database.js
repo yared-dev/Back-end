@@ -1,23 +1,17 @@
-const { Pool } = require("pg");
+const mysql = require("mysql");
 // Coloca aquí tus credenciales
-const pool = new Pool({
-  user: "postgres",
+const pool = mysql.createPool({
+  user: "root",
   host: "localhost",
-  password: "9514",
+  password: "Mamawebo9514-",
   database: "appledb",
-  port: "5432",
-});
-pool.connect((err, client, release) => {
-  if (err) {
-    return console.error("Error acquiring client", err.stack);
-  }
-  client.query("SELECT NOW()", (err, result) => {
-    release();
-    if (err) {
-      return console.error("Error executing query", err.stack);
-    }
-    console.log("result.rows", result.rows);
-  });
+  port: "3306",
 });
 
+ 
+pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results[0].solution);
+});
+ 
 module.exports = pool;
