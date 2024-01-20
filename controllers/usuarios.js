@@ -9,7 +9,7 @@ const crearUsuario = async (req, res = response) => {
 
   try {
     const existeEmail = await Usuario.findOneByEmail(email);
-    if (existeEmail.rows[0]) {
+    if ( existeEmail.length !== 0 ) {
       return res.status(400).json({
         ok: false,
         msg: "El correo ya está registrado",
@@ -24,12 +24,13 @@ const crearUsuario = async (req, res = response) => {
 
     // Buscar usuario por id
     const user = await Usuario.findOneByEmail(email);
+    const { id_user } = user[0];
     // Generar el TOKEN - JWT
-    const token = await generarJWT(user.rows[0].id_user);
+    const token = await generarJWT(id_user);
 
     res.json({
       ok: true,
-      user: user.rows[0],
+      user: user[0],
       token,
     });
   } catch (error) {
@@ -48,7 +49,7 @@ const getUsuarios = async (req, res) => {
 
     res.json({
       ok: true,
-      usuarios: usuarios.rows,
+      usuarios: usuarios,
       total: 0,
     });
   } catch (error) {
@@ -68,7 +69,7 @@ const actualizarUsuario = async (req, res = response) => {
   try {
     const usuarioDB = await Usuario.findOneById(uid);
 
-    if (!usuarioDB.rows[0]) {
+    if (!usuarioDB[0]) {
       return res.status(404).json({
         ok: false,
         msg: "No existe un usuario por ese id",
@@ -77,9 +78,9 @@ const actualizarUsuario = async (req, res = response) => {
 
     // Actualizaciones
     const { email, name, role, img } = req.body;
-    if (usuarioDB.rows[0].email !== email) {
+    if (usuarioDB[0].email !== email) {
       const existeEmail = await Usuario.findOneByEmail(email);
-      if (existeEmail.rows[0]) {
+      if (existeEmail[0]) {
         return res.status(400).json({
           ok: false,
           msg: "Ya existe un usuario con ese email",

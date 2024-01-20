@@ -4,7 +4,7 @@ const getProductos = async (req, res) => {
   const producto = await Product.getProduct();
   res.json({
     ok: true,
-    producto: producto.rows,
+    producto: producto,
   });
 };
 const createProductos = async (req, res) => {
@@ -25,7 +25,7 @@ const deleteProductos = async (req, res) => {
   const id = req.params.id;
   try {
     const producto = await Product.getProductById(id);
-    if (!producto.rows[0]) {
+    if (!producto[0]) {
       return res.status(404).json({
         ok: true,
         msg: "trabajo no encontrado",
@@ -44,7 +44,7 @@ const updateProductos = async (req, res) => {
   const id = req.params.id;
   try {
     const producto = await Product.getProductById(id);
-    if (!producto.rows[0]) {
+    if (!producto[0]) {
       return res.status(404).json({
         ok: true,
         msg: "trabajo no encontrado",

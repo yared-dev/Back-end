@@ -1,32 +1,70 @@
 const pool = require("../database/config.database");
+const util = require('util');
+
+const queryAsync = util.promisify(pool.query).bind(pool);
+
 
 const insertProduct = async (res) => {
   const { name, cant, price } = res;
-  return await pool.query(
-    "INSERT INTO products ( name, cant,price) VALUES ($1,$2,$3)",
-    [name, cant, price]
-  );
+  try {
+    const results = await queryAsync({
+      sql: "INSERT INTO products ( name, cant, price) VALUES (?,?,?)",
+      timeout: 40000, // 40s
+      values: [name, cant, price]
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 const getProduct = async () => {
-  return await pool.query("SELECT * FROM products WHERE cant > 0");
+  // return await pool.query("SELECT * FROM products WHERE cant > 0");
+  try {
+    const results = await queryAsync({
+      sql: "SELECT * FROM products WHERE cant > 0",
+      timeout: 40000, // 40s
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 const getProductById = async (id) => {
-  return await pool.query("SELECT * FROM products where idproduct =$1 ", [id]);
+  try {
+    const results = await queryAsync({
+      sql: "SELECT * FROM products where idproduct = ? ",
+      timeout: 40000, // 40s
+      values: [id]
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 const updateProduct = async (res, id) => {
   const { name, cant, price, img, idproduct } = res;
-  const response = await pool.query(
-    "UPDATE products SET name = $1, cant = $2, price = $3,img=$4  WHERE idproduct = $5",
-    [name, cant, price, img, idproduct]
-  );
-  return response;
+  try {
+    const results = await queryAsync({
+      sql: "UPDATE products SET name = ?, cant = ?, price = ?, img = ? WHERE idproduct = ?",
+      timeout: 40000, // 40s
+      values: [name, cant, price, img, idproduct],
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 const deleteProduct = async (id) => {
-  const response = await pool.query(
-    "DELETE FROM products WHERE idproduct = $1",
-    [id]
-  );
-  return response;
+  try {
+    const results = await queryAsync({
+      sql: "DELETE FROM products WHERE idproduct = ?",
+      timeout: 40000, // 40s
+      values: [id],
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 module.exports = {
   insertProduct,

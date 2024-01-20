@@ -20,9 +20,9 @@
     "google-auth-library": "^7.10.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "pg": "^8.7.3",
-    "uuid": "^8.2.0",
-    "nodemon": "^2.0.16"
+    "mysql": "github:mysqljs/mysql",
+    "nodemon": "^2.0.16",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"

@@ -20,7 +20,7 @@ const getHorarioEmpleado = async (req, res) => {
     const horario = await Horario.getHorarioEmpleado();
     res.json({
       ok: true,
-      horario: horario.rows,
+      horario: horario,
     });
   } catch (error) {
     console.log(error);
@@ -31,7 +31,7 @@ const countHorario = async (req, res) => {
     const horario = await Horario.countHorario(req.body);
     res.json({
       ok: true,
-      horario: horario.rows,
+      horario: horario,
     });
   } catch (error) {
     console.log(error);
@@ -42,7 +42,7 @@ const update_horario = async (req, res) => {
     const horario = await Horario.updateHorario(req.body);
     res.json({
       ok: true,
-      horario: horario.rows,
+      horario: horario,
     });
   } catch (error) {
     console.log(error);

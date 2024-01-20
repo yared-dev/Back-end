@@ -17,10 +17,8 @@ const enviarPago = async (req, res) => {
 };
 const getPagoByUser = async (req, res) => {
   try {
-    console.log(req.body);
     const pago = await Pagos.getPagos(req.body);
-    // console.log(pago.rows)
-    if (!pago.rows[0]) {
+    if (!pago.length) {
       return res.status(200).json({
         ok: true,
         msg: "No Hay datos",
@@ -29,7 +27,7 @@ const getPagoByUser = async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: "Great",
-      pago: pago.rows,
+      pago: pago,
     });
   } catch (error) {
     console.log(error);

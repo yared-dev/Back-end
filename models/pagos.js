@@ -1,18 +1,32 @@
 const pool = require("../database/config.database");
+const util = require("util");
+const queryAsync = util.promisify(pool.query).bind(pool);
 
 const insertPago = async (res) => {
   const { iduser, fecha, monto } = res;
-  return await pool.query(
-    "INSERT INTO pagos_diarios ( id_users, fecha, monto) VALUES ($1,$2,$3)",
-    [iduser, fecha, monto]
-  );
+  try {
+    const results = await queryAsync({
+      sql: "INSERT INTO pagos_diarios ( id_users, fecha, monto) VALUES (?,?,?)",
+      timeout: 40000, // 40s
+      values: [iduser, fecha, monto],
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 const getPagos = async (res) => {
   const { iduser } = res;
-  console.log(iduser);
-  return await pool.query("select id_users, fecha::varchar, monto from pagos_diarios where id_users = $1", [
-    iduser,
-  ]);
+  try {
+    const results = await queryAsync({
+      sql: "select id_users, fecha, monto from pagos_diarios where id_users = ?",
+      timeout: 40000, // 40s
+      values: [iduser],
+    });
+    return results;
+  } catch (error) {
+    throw error;
+  }
 };
 module.exports = {
   insertPago,

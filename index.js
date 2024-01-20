@@ -33,6 +33,6 @@ app.use("/api/upload", require("./routes/uploads"));
 app.use("/api/pagos", require("./routes/pagos"));
 // app.use("/api/todo", require("./routes/busquedas"));
 
-app.listen(5000, () => {
-  console.log("Servidor corriendo en puerto " + 5000);
+app.listen(4000, () => {
+  console.log("Servidor corriendo en puerto " + 4000);
 });

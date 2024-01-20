@@ -6,7 +6,7 @@ const getTrabajos = async (req, res) => {
   const trabajo = await Trabajo.getJobs(activo);
   res.json({
     ok: true,
-    trabajo: trabajo.rows,
+    trabajo: trabajo,
   });
 };
 const createTrabajos = async (req, res) => {
@@ -27,7 +27,7 @@ const deleteTrabajos = async (req, res) => {
   const id = req.params.id;
   try {
     const trabajo = await Trabajo.getJobsById(id);
-    if (!trabajo.rows[0]) {
+    if (!trabajo[0]) {
       return res.status(404).json({
         ok: true,
         msg: "trabajo no encontrado",
@@ -46,7 +46,7 @@ const actualizarTrabajo = async (req, res) => {
   const id = req.params.id;
   try {
     const trabajo = await Trabajo.getJobsById(id);
-    if (!trabajo.rows[0]) {
+    if (!trabajo[0]) {
       return res.status(404).json({
         ok: true,
         msg: "trabajo no encontrado",
@@ -65,7 +65,7 @@ const getJobsByIdUser = async (req, res) => {
   try {
     const trabajo = await Trabajo.getJobsByUser(req.body);
 
-    if (!trabajo.rows[0]) {
+    if (!trabajo[0]) {
       return res.status(200).json({
         ok: false,
         msg: "No Hay datos",
@@ -74,7 +74,7 @@ const getJobsByIdUser = async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: "Great",
-      trabajo: trabajo.rows,
+      trabajo: trabajo,
     });
   } catch (error) {
     console.log(error);

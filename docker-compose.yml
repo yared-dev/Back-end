@@ -5,38 +5,28 @@ services:
     container_name: example
     build: .
     ports:
-      - "5000:3000"
+      - "4000:3000"
     environment:
-      # DEV
-      # - PGDATABASE=postgres
-      # - PGUSER=postgres
-      # - PGPASSWORD=1234
-      # - PGHOST=localhost
-      # PRODUCCION
-      - PGUSER=yared
-      - PGPASSWORD=1234
-      - PGDATABASE=appledb
-      - PGHOST=postgresql
+      - MYSQL_USER=yared
+      - MYSQL_PASSWORD=9514
+      - MYSQL_DATABASE=appledb
+      - MYSQL_HOST=mysqlmanito
       - JWT_SECRET=Holsdj28397kjHd7@asdyui3897k
     links:
-      - postgresql
+      - mysql
     volumes:
       - .:/usr/src/app
-  postgresql:
-    container_name: postdatabases
-    image: postgres:12
+  mysql:
+    container_name: mysqldatabase
+    image: mysql:latest
     ports:
-      - "5432:5432"
+      - "3306:3306"
+    expose:
+      - '3306'
     environment:
-    # DEV
-      # - POSTGRES_USER=yared
-      # - POSTGRES_PASSWORD=1234
-      # - POSTGRES_DB=postgres
-      
-      # PRODUCCION
-      - POSTGRES_USER=yared
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=appledb
+      - MYSQL_ROOT_PASSWORD=9514
+      - MYSQL_DATABASE=appledb
+      - MYSQL_USER=yared
+      - MYSQL_PASSWORD=9514
     volumes:
-      - ~/docker/postgres:/var/lib/postgresql/data
-
+      - ~/docker/mysql:/var/lib/mysql
